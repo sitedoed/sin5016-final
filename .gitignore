@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Dataset e modelos (NÃO COMMITAR!)
+data/raw/
+data/processed/
+data/synthetic/
+models/
+*.h5
+*.pkl
+*.npy
+*.npz
+experiments/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Logs e outputs
+logs/
+*.log
+outputs/
+
+# TensorFlow/Keras
+checkpoint
+*.index
+*.data-*
+*.meta
+tensorboard/
+
+# Temporários
+.tmp/
+tmp/
+*.tmp
+*.temp
