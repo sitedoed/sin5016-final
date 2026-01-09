@@ -124,10 +124,10 @@ git clone https://github.com/seu-usuario/projeto-facial-cnn.git
 cd projeto-facial-cnn
 
 # Criar ambiente virtual
-python -m venv venv
-source venv/bin/activate  # Linux/Mac
+python -m venv final
+source final/bin/activate  # Linux/Mac
 # ou
-venv\Scripts\activate     # Windows
+final\Scripts\activate     # Windows
 
 # Instalar dependências
 pip install -r requirements.txt
@@ -191,29 +191,7 @@ O relatório técnico inclui:
 
     Propostas de trabalho futuro
 
-🎥 Vídeo Explicativo
 
-    Duração: 15 minutos máximo
-
-    Conteúdo:
-
-        Introdução e motivação (2 min)
-
-        Revisão teórica (3 min)
-
-        Metodologia e implementação (5 min)
-
-        Resultados e análise (4 min)
-
-        Conclusões (1 min)
-
-📋 Critérios de Avaliação
-Critério	Peso
-Implementação correta da CNN	30%
-Análise dos resultados	25%
-Clareza do relatório	20%
-Vídeo explicativo	15%
-Organização e originalidade	10%
 🔧 Tecnologias Utilizadas
 
     Linguagem: Python 3.8+
@@ -252,11 +230,11 @@ Organização e originalidade	10%
 
 👥 Autores
 
-    [Seu Nome] - Desenvolvimento e análise
+    Edson Vieira - Desenvolvimento e análise
 
-    [Nome do Professor] - Orientação
+    Prof. dr. Clodoaldo A. Lima - Orientação
 
-    Universidade [Sua Universidade] - Suporte institucional
+    Universidade de São Paulo - USP - Suporte institucional
 
 📄 Licença
 
@@ -269,12 +247,5 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para d
 
     Google Colab pelos recursos computacionais
 
-📞 Contato
 
-Para dúvidas ou sugestões:
-
-    Email: seu.email@universidade.edu
-
-    Repositório: github.com/seu-usuario/projeto-facial-cnn
-
-Projeto desenvolvido para a disciplina de Aprendizado de Máquina - [Nome da Universidade], [Ano]
+Projeto desenvolvido para a disciplina de Aprendizado de Máquina - USP, 2025
