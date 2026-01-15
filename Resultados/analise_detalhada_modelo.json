@@ -1,0 +1,144 @@
+{
+  "modelo": "cnn_30epocas_best.h5",
+  "dataset": {
+    "total_imagens": 7598,
+    "classes_unicas": 1687,
+    "acur\u00e1cia_geral": 0.5251381942616478
+  },
+  "estatisticas_acur\u00e1cia": {
+    "m\u00e9dia": 0.5250148192056906,
+    "mediana": 0.5,
+    "m\u00e1xima": 1.0,
+    "m\u00ednima": 0.0,
+    "desvio_padr\u00e3o": 0.29490775448789974
+  },
+  "distribui\u00e7\u00e3o_acur\u00e1cia": {
+    "0-20%": 160,
+    "20-40%": 317,
+    "40-60%": 422,
+    "60-80%": 416,
+    "80-100%": 164
+  },
+  "top_classes_acuracia": [
+    {
+      "classe": 27,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 47,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 53,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 58,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 59,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 65,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 69,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 73,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 75,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 76,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 77,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 93,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 94,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 97,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 130,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 137,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 142,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 143,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    },
+    {
+      "classe": 151,
+      "acuracia": 1.0,
+      "amostras": 5,
+      "corretas": 5
+    },
+    {
+      "classe": 153,
+      "acuracia": 1.0,
+      "amostras": 4,
+      "corretas": 4
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+    "Baseline": {
+        "accuracy": 0.7523089647293091,
+        "loss": 0.7296062707901001,
+        "train_samples": 5556,
+        "epochs_trained": 30
+    },
+    "With_Augmentation": {
+        "accuracy": 0.7548278570175171,
+        "loss": 0.7254447937011719,
+        "train_samples": 5648,
+        "epochs_trained": 30
+    },
+    "Dataset_Info": {
+        "num_classes": 72,
+        "total_samples": 7938,
+        "test_samples": 1191,
+        "validation_samples": 1191
+    }
+}

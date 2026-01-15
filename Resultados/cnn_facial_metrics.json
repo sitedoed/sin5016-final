@@ -1,0 +1,27 @@
+{
+  "timestamp": "2026-01-09T22:03:07.924670",
+  "model_name": "cnn_facial",
+  "dataset": {
+    "total_images": 50648,
+    "classes": 1687,
+    "train_size": 35451,
+    "val_size": 7599,
+    "test_size": 7598
+  },
+  "training": {
+    "epochs": 10,
+    "batch_size": 32,
+    "learning_rate": 0.001,
+    "training_time_minutes": 36.34665553967158,
+    "final_epoch": 10
+  },
+  "results": {
+    "test_loss": 3.206794500350952,
+    "test_accuracy": 0.39734140038490295,
+    "test_top5_accuracy": 0.5922611355781555
+  },
+  "best_validation": {
+    "val_accuracy": 0.4204500615596771,
+    "val_loss": 3.242061138153076
+  }
+}

@@ -1,251 +1,171 @@
-Projeto de Identificação Biométrica Facial com CNN
-📋 Sobre o Projeto
+# Sistema de Identificação Facial com CNN – Dataset CelebA
 
-Este projeto implementa um sistema de identificação biométrica facial utilizando Redes Neurais Convolucionais (CNNs) para aprendizado de representações discriminativas diretamente dos dados brutos. O sistema é treinado e avaliado utilizando um subconjunto da base de dados CelebA.
+Este repositório contém a implementação, experimentos e análise de um **Sistema de Identificação Biométrica Facial** baseado em **Redes Neurais Convolucionais (CNNs)**, utilizando o dataset **CelebA (Celebrities Attributes Dataset)**.
 
-Objetivo Geral: Desenvolver um sistema robusto de identificação facial baseado em CNNs capaz de reconhecer identidades em condições variadas de iluminação, expressão e pose.
-🎯 Objetivos Específicos
+O projeto foi desenvolvido com fins **acadêmicos**, avaliando o desempenho de CNNs em cenários controlados e em larga escala, com foco em **escalabilidade**, **acurácia Top-1 e Top-5**, e **custo computacional**.
 
-    Implementar uma CNN para reconhecimento facial
+---
 
-    Avaliar o impacto de diferentes técnicas de pré-processamento
+## 📌 Objetivos do Projeto
 
-    Comparar resultados com abordagens tradicionais
+- Implementar uma CNN para **identificação facial multi-classe**
+- Avaliar desempenho em:
+  - Cenário controlado (72 classes)
+  - Cenário em larga escala (1.687 classes)
+- Comparar impacto do número de épocas no desempenho
+- Analisar limitações e propor melhorias arquiteturais
+- Produzir documentação técnica clara e reprodutível
 
-    Analisar desempenho, acurácia e limitações do sistema
+---
 
-    Implementar aumento de dados com cGAN (opcional)
+## 📂 Dataset
 
-📊 Dataset
-CelebA Subset
+**CelebA – Celebrities Attributes Dataset**
 
-    Origem: CelebA (Celebrities Attributes Dataset)
+- Total de imagens utilizadas: **50.648**
+- Total de identidades: **1.687**
+- Resolução original do CelebA: **178 × 218 pixels**
+- Resolução utilizada no projeto: **64 × 64 pixels**
+- Formato: **Grayscale (1 canal)**
 
-    Tamanho original: 202.599 imagens (10.177 identidades)
+### Pré-processamento
+- Redimensionamento para 64×64
+- Conversão para escala de cinza
+- Normalização dos pixels
+- Divisão estratificada em treino, validação e teste
 
-    Subconjunto utilizado: 20% da base original (≈40.520 imagens)
+---
 
-    Resolução: 64×64 pixels (otimizado de trabalho anterior)
+## 🧪 Divisão dos Experimentos
 
-    Formato: Grayscale (1 canal)
+### 🔹 Experimento Controlado
+- Classes: **72**
+- Total de imagens: **7.938**
+- Treino: 70%
+- Validação: 15%
+- Teste: 15%
 
-    Distribuição: ≈2.000 identidades, média de 20 imagens por identidade
+### 🔹 Experimento em Larga Escala
+- Classes: **1.687**
+- Treino: 35.451 imagens
+- Validação: 7.599 imagens
+- Teste: 7.598 imagens
 
-Divisão dos Dados
+---
 
-    Treino: 70% (≈28.364 imagens)
+## 🧠 Arquitetura da CNN
 
-    Validação: 15% (≈6.078 imagens)
+- Entrada: `(64, 64, 1)`
+- 4 blocos:
+  - `Conv2D`
+  - `Batch Normalization`
+  - `MaxPooling`
+  - `Dropout`
+- Camada densa final: **512 neurônios**
+- Saída: `Softmax (N_classes)`
 
-    Teste: 15% (≈6.078 imagens)
+### Configuração de Treinamento
+- Função de perda: **Categorical Cross-Entropy**
+- Otimizador: **Adam**
+- Learning rate: **0.001**
+- Batch size: **32**
+- Épocas testadas: **10 e 30**
 
-🏗️ Arquitetura do Sistema
-1. Pré-processamento
+---
 
-    Redimensionamento para 64×64 pixels
+## 📊 Resultados Principais
 
-    Normalização de pixels para [0, 1]
+### Tabela Comparativa dos Cenários
 
-    Data augmentation (flip horizontal, rotações leves, ajuste de brilho)
+| Cenário                  | Classes | Épocas | Top-1 (%) | Top-5 (%) | Tempo de Treino |
+|--------------------------|---------|--------|-----------|-----------|-----------------|
+| Controlado (Baseline)    | 72      | 30     | 75,23     | —         | ~15 min         |
+| Controlado + Augmentation| 72      | 30     | 0,08*     | —         | ~16 min         |
+| Larga Escala             | 1.687   | 10     | 39,73     | 59,23     | 36 min          |
+| Larga Escala             | 1.687   | 30     | 52,51     | 69,35     | 108 min         |
 
-    One-hot encoding dos rótulos
+\* Resultado anômalo – provável erro na implementação do data augmentation.
 
-2. Arquitetura CNN Principal
-text
+---
 
-Camada de Entrada: (64, 64, 1)
-├── Conv2D(32, 3×3) + ReLU + BatchNorm
-├── MaxPooling2D(2×2) + Dropout(0.25)
-├── Conv2D(64, 3×3) + ReLU + BatchNorm
-├── MaxPooling2D(2×2) + Dropout(0.25)
-├── Conv2D(128, 3×3) + ReLU + BatchNorm
-├── MaxPooling2D(2×2) + Dropout(0.25)
-├── Conv2D(256, 3×3) + ReLU + BatchNorm
-├── MaxPooling2D(2×2) + Dropout(0.25)
-├── Flatten()
-├── Dense(512) + ReLU + BatchNorm + Dropout(0.5)
-└── Dense(N_classes) + Softmax
+## 📈 Análise dos Resultados
 
-3. Configuração de Treinamento
+- Aumento de **12,78% na Top-1 accuracy** ao passar de 10 para 30 épocas
+- **Top-5 accuracy de 69,35%** demonstra aprendizado discriminativo robusto
+- Redução esperada de desempenho ao escalar de 72 para 1.687 classes
+- Relação **tempo × desempenho** favorável para 30 épocas
 
-    Função de perda: Categorical Cross-Entropy
+---
 
-    Otimizador: Adam (learning_rate=0.001)
+## ⚠️ Limitações Identificadas
 
-    Métricas: Acurácia, Precision, Recall, F1-Score
+### Técnicas
+- Erro crítico no pipeline de data augmentation
+- Arquitetura CNN simples para identificação em larga escala
+- Softmax não ideal para grande número de classes
 
-    Batch size: 32 ou 64
+### Computacionais
+- Treinamento demanda GPU
+- Tempo cresce linearmente com o número de épocas
 
-    Épocas: Até early stopping (paciência=10)
+---
 
-4. cGAN para Data Augmentation (Opcional)
+## 🚀 Melhorias Propostas
 
-    Geração de imagens sintéticas condicionadas por identidade
+### Curto Prazo
+- Correção do pipeline de data augmentation
+- Validação rigorosa dos labels após transformação
+- Uso de learning rate scheduling
 
-    Balanceamento de classes minoritárias
+### Médio e Longo Prazo
+- Substituição da CNN por:
+  - ResNet
+  - EfficientNet
+- Aprendizado Métrico:
+  - Triplet Loss
+  - ArcFace
+- Uso de embeddings faciais e classificação por similaridade
+- Ensemble de modelos
 
-    Arquitetura DCGAN modificada para grayscale
+---
 
-📁 Estrutura do Projeto
-text
+## 🏁 Conclusões
 
-projeto_facial/
-├── data/                          # Dados e datasets
-├── notebooks/                     # Análises exploratórias
-├── src/                           # Código fonte
-│   ├── data/                      # Manipulação de dados
-│   ├── models/                    # Definição dos modelos
-│   ├── training/                  # Treinamento
-│   ├── evaluation/                # Avaliação
-│   └── utils/                     # Utilitários
-├── configs/                       # Configurações
-├── experiments/                   # Resultados experimentais
-├── reports/                       # Relatórios
-├── scripts/                       # Scripts executáveis
-└── outputs/                       # Saídas finais
+- O sistema alcançou **52,51% de acurácia Top-1** para **1.687 identidades**
+- Top-5 accuracy de **69,35%** indica potencial prático
+- Arquitetura é funcional, mas não ideal para produção
+- Projeto fornece base sólida para evolução futura
 
-🚀 Como Executar
-Pré-requisitos
-bash
+---
 
-Python 3.8+
-TensorFlow 2.8+
-OpenCV
-scikit-learn
-matplotlib
-numpy
-pandas
+## 🛠️ Tecnologias Utilizadas
 
-Instalação
-bash
+- Python 3.x
+- TensorFlow / Keras
+- NumPy
+- OpenCV
+- Matplotlib
+- Dataset CelebA
 
-# Clonar repositório
-git clone https://github.com/seu-usuario/projeto-facial-cnn.git
-cd projeto-facial-cnn
+---
 
-# Criar ambiente virtual
-python -m venv final
-source final/bin/activate  # Linux/Mac
-# ou
-final\Scripts\activate     # Windows
+## 👤 Autor
 
-# Instalar dependências
-pip install -r requirements.txt
+**Edson de Oliveira Vieira**  
+Programa de Pós-Graduação – Universidade de São Paulo (USP)
 
-Execução do Pipeline
-bash
+**Orientador:**  
+Prof. Dr. Clodoaldo A. Lima
 
-# 1. Pré-processamento dos dados
-python scripts/run_preprocessing.py --input_dir data/raw --output_dir data/processed
+---
 
-# 2. Treinamento da CNN
-python scripts/train_cnn.py --config configs/cnn_config.yaml
+## 📅 Data
 
-# 3. Avaliação do modelo
-python scripts/evaluate_model.py --model_path experiments/model_final.h5 --test_dir data/processed/test
+Projeto desenvolvido e avaliado em **Janeiro de 2026**.
 
-# 4. Geração de relatório (opcional)
-python scripts/generate_report.py --output_dir reports/
+---
 
-📈 Métricas de Avaliação
+## 📎 Observação Final
 
-    Acurácia Geral: Top-1 e Top-5 accuracy
-
-    Métricas por Classe: Precision, Recall, F1-Score
-
-    Matriz de Confusão: Análise de erros entre classes
-
-    Curva ROC: Para avaliação multiclasse
-
-    Tempo de Inferência: Performance em tempo real
-
-📊 Resultados Esperados
-Métrica	CNN Baseline	CNN + Augmentation	CNN + cGAN
-Acurácia (Top-1)	~85%	~88%	~90%
-Acurácia (Top-5)	~95%	~97%	~98%
-F1-Score Médio	~0.84	~0.87	~0.89
-Tempo Inferência	<50ms	<50ms	<50ms
-🧪 Experimentos Realizados
-
-    Experimento 1: CNN baseline com pré-processamento mínimo
-
-    Experimento 2: CNN com data augmentation tradicional
-
-    Experimento 3: CNN com aumento de dados via cGAN
-
-    Experimento 4: Transfer learning com EfficientNet
-
-    Experimento 5: Ensemble de modelos
-
-📝 Relatório Técnico
-
-O relatório técnico inclui:
-
-    Revisão bibliográfica sobre reconhecimento facial
-
-    Metodologia detalhada
-
-    Análise comparativa dos experimentos
-
-    Discussão de resultados e limitações
-
-    Propostas de trabalho futuro
-
-
-🔧 Tecnologias Utilizadas
-
-    Linguagem: Python 3.8+
-
-    Deep Learning: TensorFlow 2.x / Keras
-
-    Processamento de Imagens: OpenCV, PIL
-
-    Análise de Dados: NumPy, Pandas, Matplotlib
-
-    Avaliação: scikit-learn
-
-    Desenvolvimento: Jupyter Notebook, Git
-
-⚠️ Limitações e Desafios
-
-    Variabilidade intra-classe: Expressões, iluminação e poses diferentes
-
-    Similaridade inter-classe: Algumas identidades são visualmente similares
-
-    Balanceamento de classes: Distribuição desigual no dataset original
-
-    Recursos computacionais: Treinamento demanda GPU com memória suficiente
-
-📈 Trabalho Futuro
-
-    Implementar attention mechanisms na CNN
-
-    Explorar arquiteturas mais recentes (Vision Transformers)
-
-    Adicionar reconhecimento de atributos (idade, gênero, emoção)
-
-    Implementar sistema em tempo real com OpenCV
-
-    Testar com outras bases de dados (LFW, VGGFace2)
-
-👥 Autores
-
-    Edson Vieira - Desenvolvimento e análise
-
-    Prof. dr. Clodoaldo A. Lima - Orientação
-
-    Universidade de São Paulo - USP - Suporte institucional
-
-📄 Licença
-
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para detalhes.
-🙏 Agradecimentos
-
-    Universidade de Hong Kong pelo dataset CelebA
-
-    Comunidade TensorFlow/Keras pela documentação
-
-    Google Colab pelos recursos computacionais
-
-
-Projeto desenvolvido para a disciplina de Aprendizado de Máquina - USP, 2025
+Este repositório possui caráter **acadêmico e experimental**.  
+Os resultados **não devem ser utilizados diretamente em sistemas críticos de produção sem validações adicionais**.

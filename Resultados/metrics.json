@@ -1,0 +1,15 @@
+{
+  "test_accuracy": 0.07599999755620956,
+  "test_loss": 5.157151222229004,
+  "train_accuracy": 0.3100000023841858,
+  "val_accuracy": 0.09200000017881393,
+  "input_shape": [
+    64,
+    64,
+    3
+  ],
+  "num_classes": 10,
+  "train_samples": 500,
+  "val_samples": 250,
+  "test_samples": 250
+}

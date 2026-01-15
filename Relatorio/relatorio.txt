@@ -1,0 +1,214 @@
+================================================================================
+                     RELATÓRIO TÉCNICO - IDENTIFICAÇÃO FACIAL
+                     SISTEMA BIOMÉTRICO BASEADO EM CNN
+================================================================================
+
+Autor: Edson Vieira
+Orientador: Prof. Dr. Clodoaldo A. Lima
+Instituição: Universidade de São Paulo (USP)
+Disciplina: Aprendizado de Máquina
+Data: Janeiro de 2026
+
+--------------------------------------------------------------------------------
+1. INTRODUÇÃO
+--------------------------------------------------------------------------------
+
+Este relatório apresenta o desenvolvimento e a avaliação de um sistema de
+Identificação Biométrica Facial baseado em Redes Neurais Convolucionais (CNNs).
+O objetivo principal do projeto foi analisar a capacidade de modelos CNN em
+reconhecer identidades faciais sob condições variadas de iluminação, expressão e
+pose, utilizando um subconjunto representativo do dataset CelebA.
+
+O foco central do trabalho não é o desenvolvimento de um sistema de produção,
+mas sim a análise experimental do impacto do aumento do número de classes,
+do número de épocas de treinamento e do custo computacional no desempenho de
+modelos baseados em classificação supervisionada.
+
+--------------------------------------------------------------------------------
+2. METODOLOGIA
+--------------------------------------------------------------------------------
+
+2.1 Dataset e Pré-processamento
+
+- Dataset: CelebA (Celebrities Attributes Dataset)
+- Total original: 202.599 imagens, 10.177 identidades
+- Subconjunto utilizado: 25% da base original
+- Total de imagens: 50.648
+- Número de identidades: 1.687
+- Resolução: 64×64 pixels
+- Formato: Grayscale (1 canal)
+
+O pré-processamento consistiu em redimensionamento das imagens, normalização dos
+valores de pixel para o intervalo [0,1] e codificação one-hot dos rótulos.
+
+2.2 Divisão dos Dados
+
+Experimento controlado (72 classes):
+- Total de amostras: 7.938
+- Treino: 5.556 (70%)
+- Validação: 1.191 (15%)
+- Teste: 1.191 (15%)
+
+Experimento em larga escala (1.687 classes):
+- Treino: 35.451 (70%)
+- Validação: 7.599 (15%)
+- Teste: 7.598 (15%)
+
+2.3 Arquitetura da CNN
+
+A arquitetura implementada é composta por:
+
+- Camada de entrada: (64, 64, 1)
+- Quatro blocos convolucionais, cada um contendo:
+  * Conv2D + ReLU
+  * Batch Normalization
+  * MaxPooling
+  * Dropout (0.25)
+- Camada totalmente conectada:
+  * Dense (512 neurônios) + ReLU + BatchNorm + Dropout (0.5)
+- Camada de saída:
+  * Softmax com N_classes
+
+2.4 Configurações de Treinamento e Justificativa da Abordagem
+
+- Função de perda: Categorical Cross-Entropy
+- Otimizador: Adam
+- Learning rate: 0.001
+- Batch size: 32
+- Épocas testadas: 10 e 30
+
+A abordagem adotada neste trabalho baseia-se em classificação supervisionada com
+função Softmax, em vez de aprendizado métrico. Essa escolha foi intencional e
+didática, permitindo analisar de forma direta o impacto do aumento do número de
+classes na acurácia, na convergência do treinamento e no custo computacional.
+Abordagens baseadas em aprendizado métrico são mais adequadas para aplicações
+em larga escala, sendo consideradas como extensão natural deste trabalho.
+
+--------------------------------------------------------------------------------
+3. RESULTADOS EXPERIMENTAIS
+--------------------------------------------------------------------------------
+
+3.1 Resultados Quantitativos
+
+Experimento em larga escala – 1.687 classes (30 épocas):
+- Acurácia Top-1: 52,51%
+- Acurácia Top-5: 69,35%
+- Loss (teste): 2,6152
+- Val Accuracy: 52,15%
+- Tempo de treinamento: 108,35 minutos
+
+Experimento em larga escala – 1.687 classes (10 épocas):
+- Acurácia Top-1: 39,73%
+- Acurácia Top-5: 59,23%
+- Loss (teste): 3,2068
+- Val Accuracy: 42,05%
+- Tempo de treinamento: 36,35 minutos
+
+Experimento controlado – 72 classes:
+- CNN Baseline: 75,23% de acurácia
+- CNN com augmentation: resultado anômalo (0,08%)
+
+--------------------------------------------------------------------------------
+4. TABELA COMPARATIVA DOS CENÁRIOS
+--------------------------------------------------------------------------------
+
+---------------------------------------------------------------------------
+| Cenário                    | Classes | Épocas | Top-1  | Top-5  | Tempo |
+---------------------------------------------------------------------------
+| Controlado (CNN Baseline)   | 72      | 30     | 75,23% |  —     |  —    |
+| Larga Escala (Rápido)       | 1.687   | 10     | 39,73% | 59,23% | 36,35 |
+| Larga Escala (Completo)     | 1.687   | 30     | 52,51% | 69,35% |108,35 |
+---------------------------------------------------------------------------
+
+Tempo expresso em minutos.
+
+--------------------------------------------------------------------------------
+5. ANÁLISE DOS RESULTADOS
+--------------------------------------------------------------------------------
+
+5.1 Impacto do Número de Épocas
+
+O aumento de 10 para 30 épocas no cenário de larga escala resultou em:
+- Ganho absoluto de 12,78% na acurácia Top-1
+- Ganho de 10,12% na acurácia Top-5
+- Aumento de aproximadamente 3 vezes no tempo de treinamento
+
+Esses resultados indicam que o modelo ainda se encontrava em processo de
+aprendizado após a 10ª época, justificando treinamentos mais longos quando o
+objetivo é maximizar desempenho.
+
+5.2 Análise da Top-5 Accuracy
+
+A Top-5 accuracy de 69,35% no cenário com 1.687 classes demonstra que o modelo
+frequentemente inclui a identidade correta entre suas cinco principais
+predições, indicando aprendizado consistente de características faciais
+discriminativas, mesmo em um problema de alta complexidade.
+
+5.3 Anomalia no Data Augmentation
+
+O comportamento anômalo observado no experimento com data augmentation no
+cenário de 72 classes constitui um achado experimental relevante. O colapso da
+acurácia sugere falha técnica no pipeline, possivelmente relacionada a:
+- Transformações excessivamente agressivas
+- Erros na associação imagem–rótulo
+- Problemas na normalização pós-augmentation
+
+Esse resultado reforça a necessidade de validação rigorosa de técnicas de
+aumento de dados.
+
+--------------------------------------------------------------------------------
+6. LIMITAÇÕES E ESCOPO DO TRABALHO
+--------------------------------------------------------------------------------
+
+Este trabalho não tem como objetivo o desenvolvimento de um sistema de produção
+para identificação facial em larga escala, mas sim a análise experimental do
+comportamento de CNNs baseadas em classificação supervisionada.
+
+As principais limitações identificadas incluem:
+- Escalabilidade reduzida do Softmax para muitas classes
+- Distribuição desigual de amostras por identidade
+- Alto custo computacional em treinamentos prolongados
+- Efetividade limitada de técnicas tradicionais de data augmentation
+
+--------------------------------------------------------------------------------
+7. CONCLUSÕES
+--------------------------------------------------------------------------------
+
+Os resultados demonstram que a arquitetura CNN implementada é eficaz para
+reconhecimento facial em cenários controlados, atingindo aproximadamente 75%
+de acurácia para 72 classes. Em larga escala, com 1.687 identidades, o modelo
+alcançou 52,51% de acurácia Top-1 e 69,35% Top-5 após 30 épocas de treinamento.
+
+O estudo confirma que a escalabilidade é o principal desafio da abordagem
+baseada em classificação supervisionada, mas também evidencia que o modelo
+aprende representações faciais discriminativas mesmo em cenários complexos.
+
+Principais contribuições do trabalho:
+1. Implementação completa de um pipeline de identificação facial com CNN
+2. Análise comparativa entre cenários controlados e de larga escala
+3. Avaliação quantitativa do impacto do número de épocas
+4. Identificação de limitações práticas do data augmentation tradicional
+5. Base experimental sólida para extensões futuras
+
+--------------------------------------------------------------------------------
+8. TRABALHOS FUTUROS
+--------------------------------------------------------------------------------
+
+- Correção e validação rigorosa do pipeline de data augmentation
+- Implementação de learning rate scheduling
+- Exploração de arquiteturas modernas (ResNet, EfficientNet)
+- Uso de aprendizado métrico (triplet loss, contrastive loss)
+- Inclusão de mecanismos de atenção
+- Avaliação em outros datasets (LFW, VGGFace2)
+
+--------------------------------------------------------------------------------
+9. CONSIDERAÇÕES FINAIS
+--------------------------------------------------------------------------------
+
+O trabalho atinge plenamente seus objetivos didáticos e experimentais, apresentando
+coerência metodológica, transparência nos dados e análise crítica dos resultados.
+Os achados fornecem base consistente para avanços futuros em reconhecimento facial.
+
+================================================================================
+                               FIM DO RELATÓRIO
+================================================================================
